@@ -1,22 +1,26 @@
-import os
+from beer_repository import BeerRepository
+from brewery_repository import BreweryRepository
+from category_repository import CategoryRepository
+from person_repository import PersonRepository
+from person import Person
 
 
 def main():
-    if not os.path.exists("db/beers.csv"):
-        with open("db/beers.csv", "w") as f:
-            pass  # create the file if it does not exist
-        with open("db/categories.csv", "w") as f:
-            pass  # create the file if it does not exist
-        with open("db/people.csv", "w") as f:
-            pass  # create the file if it does not exist
-        with open("db/beers-drank.csv", "w") as f:
-            pass  # create the file if it does not exist
-        with open("db/beers-drank-with.csv", "w") as f:
-            pass  # create the file if it does not exist
-        with open("db/brewery.csv", "w") as f:
-            pass  # create the file if it does not exist
+    brewery_repository = BreweryRepository("db/brewery.csv")
+    category_repository = CategoryRepository("db/categories.csv")
+    brewery_repository = BeerRepository(
+        "db/beers.csv",
+        category_repository.categories_by_id,
+        brewery_repository.breweries_by_id)
+    people_repository = PersonRepository("db/people.csv")
 
-    print("Hello, World!")
+    james = Person(-1, "James", "T", "1975-10-25")
+    jackie = Person(-1, "Jackie", "T", "1976-11-20")
+    james = people_repository.insert(james)
+    james = people_repository.insert(jackie)
+    people = people_repository.find_all()
+    for person in people:
+        print(person)
 
 
 if __name__ == "__main__":

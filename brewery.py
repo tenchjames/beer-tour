@@ -10,6 +10,9 @@ class Brewery():
         self.state = state
         self.country = country
 
+    def clone(self):
+        return Brewery(self.id, self.name, self.city, self.state, self.country)
+
     def to_csv(self):
         name = self.name
         if ',' in name:

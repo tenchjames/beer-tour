@@ -1,27 +1,26 @@
 
 class Beer():
-    def __init__(self, id, brewery, name, category, abv):
+    def __init__(self, id, brewery_id, name, category_id, abv):
         self.id = id
-        if brewery is None:
-            raise ValueError("Brewery is required")
-        self.brewery = brewery
+        if brewery_id is None:
+            raise ValueError("Brewery id is required")
+        self.brewery_id = brewery_id
         if name is None or name.strip() == "":
             raise ValueError("Name is required")
         self.name = name
-        if category is None:
-            raise ValueError("Category is required")
-        self.category = category
+        if category_id is None:
+            raise ValueError("Category id is required")
+        self.category_id = category_id
         self.abv = abv
 
+    def clone(self):
+        return Beer(self.id, self.brewery_id, self.name, self.category_id, self.abv)
+
     def to_csv(self):
-        brewery = self.brewery
-        brewery_id = brewery.id
         name = self.name
         if ',' in name:
             name = f'"{name}"'
-        category = self.category
-        category_id = category.id
         abv = self.abv
         if abv is None:
             abv = 0.0
-        return f"{self.id},{brewery_id},{name},{category_id},{abv}"
+        return f"{self.id},{self.brewery_id},{name},{self.category_id},{abv}"
