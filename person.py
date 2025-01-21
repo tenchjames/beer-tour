@@ -1,7 +1,4 @@
-import re
-
-birthdate_pattern = re.compile(
-    r"^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$")
+from util import is_valid_date
 
 
 class Person():
@@ -14,7 +11,7 @@ class Person():
         if lastname.strip() == "" or firstname.strip() == "" or birthdate.strip() == "":
             raise ValueError("All fields are required")
 
-        if not is_valid_birthdate(birthdate):
+        if not is_valid_date(birthdate):
             raise ValueError("Invalid birthdate format. Use YYYY-MM-DD")
 
         self.lastname = lastname
@@ -39,7 +36,3 @@ class Person():
 
     def __repr__(self):
         return f"Person({self.id}, {self.lastname}, {self.firstname}, {self.birthdate})"
-
-
-def is_valid_birthdate(birthdate):
-    return re.match(birthdate_pattern, birthdate) is not None

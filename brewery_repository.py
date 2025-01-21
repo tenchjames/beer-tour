@@ -6,7 +6,7 @@ class BreweryRepository(Repository):
     def __init__(self, file_path):
         super().__init__(file_path, "brewery", [
             "name", "city", "state"], reader, writer)
-        self.load()
+        super().load()
 
 
 def reader(line):

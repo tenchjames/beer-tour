@@ -1,3 +1,5 @@
+import os
+
 
 class Repository():
     def __init__(self, file_path, entity_name, fields, reader, writer):
@@ -7,6 +9,8 @@ class Repository():
         self.entities_by_id = {}
         self.next_id = 1
         self.fields = fields
+        self.reader = reader
+        self.writer = writer
 
     def before_insert(self, entity):
         pass
@@ -19,6 +23,27 @@ class Repository():
 
     def after_load(self):
         pass
+
+    def load(self):
+        if self.file_path is None:
+            self.after_load()
+            return
+        if not os.path.exists(self.file_path):
+            return
+        with open(self.file_path, "r") as f:
+            for line in f:
+                entity = self.reader(line)
+                if entity.getattr("id") is None:
+                    raise Exception("Id is required")
+                id = entity.getattr("id")
+                id, lastname, firstname, birthdate = line.strip().split(",")
+                if int(id) >= self.next_id:
+                    self.next_id = int(id) + 1
+                self.entities.append(entity)
+
+            for entity in self.entities:
+                self.entities_by_id[entity.id] = entity
+        self.after_load()
 
     def insert(self, entity):
         self.before_insert(entity)
