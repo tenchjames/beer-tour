@@ -3,10 +3,12 @@ from router import Router
 from main_page import MainPage
 from category_page import CategoryPage
 from pages import Pages
+from category import Category
 
 
 def main():
     database = Database()
+
     router = Router()
     main = MainPage(database, router)
     cagegory = CategoryPage(database, router)

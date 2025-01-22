@@ -5,3 +5,43 @@ The application allows you to view statics about the beers you have tried, as we
 
 
 
+
+## todo:
+1. create page for each route
+  - main page
+  - categories/beer styles
+    - list categories
+    - create a category
+    - update/replace a category
+    - delete a category
+  - tastings -> beers tried
+    - create the entry by adding
+      - tasting attendees
+      - tasting location
+      - the beer tasted
+        - allow search by name
+        - allow search by style
+      - who drank the beer
+        - allow search by name
+      - who purchased the beer
+        - allow search by name
+      - the beer rating
+  - people
+    - list people
+    - add a person
+    - edit a person
+    - delete a person
+  - location
+    - list locations
+    - add a location
+    - delete a location
+    - update a location
+  - brewery
+    - list breweries
+    - add a brewery
+    - update a brewery
+    - delete a brewery
+  - statics page
+    - get facts about drinks
+
+

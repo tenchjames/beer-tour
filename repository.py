@@ -2,13 +2,13 @@ import os
 
 
 class Repository():
-    def __init__(self, file_path, entity_name, fields, reader, writer):
+    def __init__(self, file_path, entity_name, columns, reader, writer):
         self.file_path = file_path
         self.entity_name = entity_name
         self.entities = []
         self.entities_by_id = {}
         self.next_id = 1
-        self.fields = fields
+        self.columns = columns
         self.reader = reader
         self.writer = writer
 
@@ -33,10 +33,10 @@ class Repository():
         with open(self.file_path, "r") as f:
             for line in f:
                 entity = self.reader(line)
-                if entity.getattr("id") is None:
+                if entity.id is None:
                     raise Exception("Id is required")
-                id = entity.getattr("id")
-                id, lastname, firstname, birthdate = line.strip().split(",")
+                id = entity.id
+
                 if int(id) >= self.next_id:
                     self.next_id = int(id) + 1
                 self.entities.append(entity)
@@ -60,6 +60,8 @@ class Repository():
         self.entities.append(cloned)
         self.entities_by_id[cloned.id] = cloned
         # todo: save to the file
+        with open(self.file_path, "a") as f:
+            f.write(self.writer(cloned))
         return cloned.clone()
 
     def update(self, entity):
@@ -70,6 +72,7 @@ class Repository():
             if e == entity:
                 return
         current = self.entities_by_id[entity.id]
+        # todo: this doesnt work, need to use fields array
         for field in self.fields:
             if getattr(entity, field) is None:
                 raise Exception(f"Field {field} is required")
@@ -82,6 +85,11 @@ class Repository():
         entity = self.entities_by_id[id]
         self.entities.remove(entity)
         del self.entities_by_id[id]
+        # has to be a smarter way to do this
+        with open(self.file_path, "w") as f:
+            for e in self.entities:
+                if e.id != id:
+                    f.write(self.writer(e))
 
     def find_by_id(self, id):
         if self.entities_by_id.get(id) is None:

@@ -18,4 +18,4 @@ class Category():
             description = ''
         if ',' in description:
             description = f'"{description}"'
-        return f"{self.id},{name},{description}"
+        return f"{self.id},{name},{description}\n"

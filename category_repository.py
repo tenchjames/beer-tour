@@ -1,12 +1,15 @@
-
 from category import Category
 from repository import Repository
+
+fields = [
+    ("name", "string"),
+    ("description", "string")
+]
 
 
 class CategoryRepository(Repository):
     def __init__(self, file_path):
-        super().__init__(file_path, "category", [
-            "name", "description"], reader, writer)
+        super().__init__(file_path, "category", fields, reader, writer)
         self.load()
 
 
@@ -16,4 +19,4 @@ def reader(line):
 
 
 def writer(entity):
-    entity.to_csv()
+    return entity.to_csv()
