@@ -2,7 +2,7 @@ from util import is_valid_date
 
 
 class Tasting():
-    def __init__(self, id, person_id, beer_id, location_id, tasting_date, cost, paid_by_person_id, rating):
+    def __init__(self, id, person_id, beer_id, tasting_date, cost, paid_by_person_id, rating):
         self.id = id
         if person_id is None:
             raise ValueError("Person id is required")
@@ -31,7 +31,4 @@ class Tasting():
         self.rating = rating
 
     def clone(self):
-        return Tasting(self.id, self.person_id, self.beer_id, self.location_id, self.tasting_date, self.cost, self.paid_by_person_id, self.rating)
-
-    def to_csv(self):
-        return f"{self.id},{self.person_id},{self.beer_id},{self.location_id},{self.tasting_date},{self.cost},{self.paid_by_person_id},{self.rating}"
+        return Tasting(self.id, self.person_id, self.beer_id, self.tasting_date, self.cost, self.paid_by_person_id, self.rating)

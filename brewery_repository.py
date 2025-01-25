@@ -9,10 +9,14 @@ class BreweryRepository(Repository):
         super().load()
 
 
-def reader(line):
-    id, name, city, state = line.strip().split(",")
-    return Brewery(int(id), name, city, state)
+def reader(row):
+    id = row[0]
+    name = row[1]
+    city = row[2]
+    state = row[3]
+    country = row[4]
+    return Brewery(int(id), name, city, state, country)
 
 
 def writer(entity):
-    return entity.to_csv()
+    return [entity.id, entity.name, entity.city, entity.state, entity.country]

@@ -16,3 +16,32 @@ def slugify(slug):
     slug = re.sub(r"-+", "-", slug)
     slug = re.sub(r"[^a-z0-9]+", "-", slug)
     return slug
+
+
+def standard_admin_menu(name):
+    print()
+    print(f"{name} Menu")
+    print("0. Back")
+    print("1. List")
+    print("2. Create")
+    print("3. Delete")
+    print()
+    choice = None
+    while choice is None:
+        choice = input("Choice: ")
+        try:
+            choice = int(choice)
+        except ValueError:
+            choice = None
+            print("Invalid choice")
+    return choice
+
+
+def get_text_input(field_name):
+    field = None
+    while field is None:
+        field = input(f"{field_name}: ")
+        if field == "":
+            print(f"{field_name} cannot be empty")
+            field = None
+    return field

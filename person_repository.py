@@ -9,10 +9,13 @@ class PersonRepository(Repository):
         self.load()
 
 
-def reader(line):
-    id, lastname, firstname, birthdate = line.strip().split(",")
+def reader(row):
+    id = row[0]
+    lastname = row[1]
+    firstname = row[2]
+    birthdate = row[3]
     return Person(int(id), lastname, firstname, birthdate)
 
 
 def writer(entity):
-    entity.to_csv()
+    return [entity.id, entity.lastname, entity.firstname, entity.birthdate]

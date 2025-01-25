@@ -21,12 +21,6 @@ class Person():
     def clone(self):
         return Person(self.id, self.lastname, self.firstname, self.birthdate)
 
-    def to_csv(self):
-        # commas in names is silly, remove them
-        lastname = self.lastname.replace(",", "")
-        firstname = self.firstname.replace(",", "")
-        return f"{self.id},{lastname},{firstname},{self.birthdate}"
-
     def __eq__(self, other):
         # we will make people equal if they have the same name and birthdate
         # (could two jane does be born on the same day...yea but for this app keep it simple)

@@ -13,10 +13,12 @@ class CategoryRepository(Repository):
         self.load()
 
 
-def reader(line):
-    id, name, description = line.strip().split(",")
+def reader(row):
+    id = row[0]
+    name = row[1]
+    description = row[2]
     return Category(int(id), name, description)
 
 
 def writer(entity):
-    return entity.to_csv()
+    return [entity.id, entity.name, entity.description]

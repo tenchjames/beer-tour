@@ -17,14 +17,14 @@ class MainPage(Page):
             case 1:
                 self.router.navigate(Pages.CATEGORY)
             case 2:
-                print("breweries")
+                self.router.navigate(Pages.BREWERY)
             case 3:
                 print("locations")
             case 4:
-                print("beers")
+                self.router.navigate(Pages.BEERS)
             case 5:
                 print("tastings")
-            case 6:
+            case 0:
                 print("exiting...")
                 self.router.navigate(Pages.EXIT)
             case _:
@@ -33,14 +33,15 @@ class MainPage(Page):
 
     def prompt(self):
         choice = None
-        while not choice:
+        while choice is None:
+            print()
             print("Main Menu")
+            print("0. Exit")
             print("1. Categories")
             print("2. Breweries")
             print("3. Tasting Locations")
             print("4. Beers")
             print("5. Tastings")
-            print("6. Exit")
             print()
             try:
                 choice = int(input("Choice: "))

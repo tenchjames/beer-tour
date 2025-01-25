@@ -2,7 +2,6 @@ from beer_repository import BeerRepository
 from brewery_repository import BreweryRepository
 from category_repository import CategoryRepository
 from person_repository import PersonRepository
-from tasting_location_repository import TastingLocationRepository
 from tasting_attendee_repository import TastingAttendeeRepository
 
 
@@ -15,8 +14,6 @@ class Database():
             self.category.entities_by_id,
             self.brewery.entities_by_id)
         self.person = PersonRepository("db/person.csv")
-        self.tasting_location = TastingLocationRepository(
-            "db/tasting_location.csv")
         self.tasting_attendee = TastingAttendeeRepository(
             "db/tasting_attendee")
 

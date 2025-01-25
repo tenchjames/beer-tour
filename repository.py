@@ -1,3 +1,4 @@
+import csv
 import os
 
 
@@ -31,8 +32,9 @@ class Repository():
         if not os.path.exists(self.file_path):
             return
         with open(self.file_path, "r") as f:
-            for line in f:
-                entity = self.reader(line)
+            reader = csv.reader(f, quotechar='"', delimiter=",")
+            for row in reader:
+                entity = self.reader(row)
                 if entity.id is None:
                     raise Exception("Id is required")
                 id = entity.id
@@ -61,7 +63,8 @@ class Repository():
         self.entities_by_id[cloned.id] = cloned
         # todo: save to the file
         with open(self.file_path, "a") as f:
-            f.write(self.writer(cloned))
+            writer = csv.writer(f, quotechar='"', delimiter=",")
+            writer.writerow(self.writer(cloned))
         return cloned.clone()
 
     def update(self, entity):
@@ -87,9 +90,10 @@ class Repository():
         del self.entities_by_id[id]
         # has to be a smarter way to do this
         with open(self.file_path, "w") as f:
+            writer = csv.writer(f, quotechar='"', delimiter=",")
             for e in self.entities:
                 if e.id != id:
-                    f.write(self.writer(e))
+                    writer.writerow(self.writer(e))
 
     def find_by_id(self, id):
         if self.entities_by_id.get(id) is None:

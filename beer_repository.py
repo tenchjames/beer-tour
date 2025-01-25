@@ -21,11 +21,28 @@ class BeerRepository(Repository):
                 self.by_category_id[entity.category.id] = []
             self.by_category_id[entity.category.id].append(entity)
 
+    def find_beers_by_brewer_id(self, brewery_id):
+        if brewery_id is None:
+            return []
+        if brewery_id not in self.by_brewery_id:
+            return []
+        return self.by_brewery_id[brewery_id]
 
-def reader(line):
-    id, brewery_id, name, category_id, abv = line.strip().split(",")
+    def insert(self, entity):
+        inserted = super().insert(entity)
+        self.by_brewery_id[entity.brewery_id].append(
+            self.entities_by_id[inserted.id])
+        return inserted
+
+
+def reader(row):
+    id = row[0]
+    brewery_id = row[1]
+    name = row[2]
+    category_id = row[3]
+    abv = row[4]
     return Beer(int(id), int(brewery_id), name, int(category_id), abv)
 
 
 def writer(entity):
-    return entity.to_csv()
+    return [entity.id, entity.brewery_id, entity.name, entity.category_id, entity.abv]

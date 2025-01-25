@@ -10,10 +10,12 @@ class TastingAttendeeRepository(Repository):
         self.load()
 
 
-def reader(line):
-    id, tasting_id, person_id = line.strip().split(",")
+def reader(row):
+    id = row[0]
+    tasting_id = row[1]
+    person_id = row[2]
     return TastingAttendee(int(id), int(tasting_id), int(person_id))
 
 
 def writer(entity):
-    return entity.to_csv()
+    return [entity.id, entity.tasting_id, entity.person_id]

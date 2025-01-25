@@ -18,10 +18,16 @@ class TastingRepository(Repository):
         self.load()
 
 
-def reader(line):
-    id, person_id, beer_id, tasting_date, cost, paid_by_person_id, rating = line.strip().split(",")
+def reader(row):
+    id = row[0]
+    person_id = row[1]
+    beer_id = row[2]
+    tasting_date = row[3]
+    cost = row[4]
+    paid_by_person_id = row[5]
+    rating = row[6]
     return Tasting(int(id), int(person_id), int(beer_id), tasting_date, cost, int(paid_by_person_id), rating)
 
 
 def writer(entity):
-    return entity.to_csv()
+    return [entity.id, entity.person_id, entity.beer_id, entity.tasting_date, entity.cost, entity.paid_by_person_id, entity.rating]
