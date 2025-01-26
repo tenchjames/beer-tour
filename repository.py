@@ -30,7 +30,8 @@ class Repository():
             self.after_load()
             return
         if not os.path.exists(self.file_path):
-            return
+            with open(self.file_path, "w") as f:
+                pass
         with open(self.file_path, "r") as f:
             reader = csv.reader(f, quotechar='"', delimiter=",")
             for row in reader:

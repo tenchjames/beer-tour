@@ -146,7 +146,8 @@ class BeerPage(Page):
         for i in range(len(breweries)):
             brewery = breweries[i]
             brewery_name = brewery.name
-            print(f"{i}. {brewery_name}")
+            print(f"{i}. {brewery_name} {brewery.city}, {
+                  brewery.state} {brewery.country}")
 
         brewery_id = None
         while True:
@@ -165,7 +166,7 @@ class BeerPage(Page):
             break
 
         beers = self.repository.find_beers_by_brewer_id(brewery_id)
-        print("Beers")
+        print(f"{brewery.name} Beers")
         print("----------")
         for beer in beers:
-            print(f"{beer.id}. {beer.name}")
+            print(f"{beer.id}. {beer.name} {beer.abv: .1f}")

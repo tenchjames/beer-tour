@@ -45,3 +45,18 @@ def get_text_input(field_name):
             print(f"{field_name} cannot be empty")
             field = None
     return field
+
+
+def get_numeric_input(field_name):
+    field = None
+    while field is None:
+        field = input(f"{field_name}: ")
+        if field == "":
+            print(f"{field_name} cannot be empty")
+            field = None
+        try:
+            field = int(field)
+        except ValueError:
+            print(f"{field_name} must be a number")
+            field = None
+    return field

@@ -15,15 +15,15 @@ class MainPage(Page):
         choice = self.prompt()
         match choice:
             case 1:
-                self.router.navigate(Pages.CATEGORY)
+                self.router.navigate(Pages.TASTINGS)
             case 2:
-                self.router.navigate(Pages.BREWERY)
+                self.router.navigate(Pages.PERSON)
             case 3:
-                print("locations")
+                self.router.navigate(Pages.CATEGORY)
             case 4:
-                self.router.navigate(Pages.BEERS)
+                self.router.navigate(Pages.BREWERY)
             case 5:
-                print("tastings")
+                self.router.navigate(Pages.BEERS)
             case 0:
                 print("exiting...")
                 self.router.navigate(Pages.EXIT)
@@ -37,11 +37,11 @@ class MainPage(Page):
             print()
             print("Main Menu")
             print("0. Exit")
-            print("1. Categories")
-            print("2. Breweries")
-            print("3. Tasting Locations")
-            print("4. Beers")
-            print("5. Tastings")
+            print("1. Drink History")
+            print("2. Person Admin")
+            print("3. Category Admin")
+            print("4. Brewery Admin")
+            print("5. Beer Admin")
             print()
             try:
                 choice = int(input("Choice: "))

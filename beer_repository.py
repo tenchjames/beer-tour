@@ -14,12 +14,12 @@ class BeerRepository(Repository):
 
     def after_load(self):
         for entity in self.entities:
-            if self.by_brewery_id.get(entity.brewery.id) is None:
-                self.by_brewery_id[entity.brewery.id] = []
-            self.by_brewery_id[entity.brewery.id].append(entity)
-            if self.by_category_id.get(entity.category.id) is None:
-                self.by_category_id[entity.category.id] = []
-            self.by_category_id[entity.category.id].append(entity)
+            if self.by_brewery_id.get(entity.brewery_id) is None:
+                self.by_brewery_id[entity.brewery_id] = []
+            self.by_brewery_id[entity.brewery_id].append(entity)
+            if self.by_category_id.get(entity.category_id) is None:
+                self.by_category_id[entity.category_id] = []
+            self.by_category_id[entity.category_id].append(entity)
 
     def find_beers_by_brewer_id(self, brewery_id):
         if brewery_id is None:
@@ -30,6 +30,9 @@ class BeerRepository(Repository):
 
     def insert(self, entity):
         inserted = super().insert(entity)
+        brewery_id = entity.brewery_id
+        if brewery_id not in self.by_brewery_id:
+            self.by_brewery_id[brewery_id] = []
         self.by_brewery_id[entity.brewery_id].append(
             self.entities_by_id[inserted.id])
         return inserted
@@ -41,6 +44,12 @@ def reader(row):
     name = row[2]
     category_id = row[3]
     abv = row[4]
+    if abv == "":
+        abv = 0.0
+    try:
+        abv = float(abv)
+    except ValueError:
+        abv = 0.0
     return Beer(int(id), int(brewery_id), name, int(category_id), abv)
 
 
