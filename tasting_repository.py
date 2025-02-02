@@ -17,6 +17,9 @@ class TastingRepository(Repository):
         super().__init__(file_path, "tasting", fields, reader, writer)
         self.load()
 
+    def find_by_date(self, date):
+        return [tasting for tasting in self.entities if tasting.tasting_date == date]
+
 
 def reader(row):
     id = row[0]

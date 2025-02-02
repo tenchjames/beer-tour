@@ -22,6 +22,8 @@ class TastingPage(Page):
                     self.add()
                 case 3:
                     self.delete()
+                case 4:
+                    self.list_by_date()
                 case _:
                     print("Invalid choice")
                     self.prompt()
@@ -34,6 +36,7 @@ class TastingPage(Page):
         print("1. Summary")
         print("2. Add a drink")
         print("3. Delete a drink")
+        print("4. List by date")
         print("More statics and random beer picker coming soon...")
         print()
         choice = None
@@ -134,7 +137,58 @@ class TastingPage(Page):
             id = get_numeric_input("Id: ")
             if id == -1:
                 return
-        self.repository.delete(id)
+        self.database.tasting.delete(id)
 
     def summary(self):
-        pass
+        people = self.database.person.find_all()
+        people_by_id = {}
+        for person in people:
+            people_by_id[person.id] = person
+
+        tastings = self.database.tasting.find_all()
+        tastings_by_person = {}
+        paid_tastings_by_person = {}
+        for person in people:
+            tastings_by_person[person.id] = []
+            paid_tastings_by_person[person.id] = []
+
+        for tasting in tastings:
+            tastings_by_person[tasting.person_id].append(tasting)
+            paid_tastings_by_person[tasting.paid_by_person_id].append(tasting)
+
+        beer_summary_by_person = {}
+
+        for person in people:
+            beer_summary_by_person[person.id] = {}
+            for tasting in tastings_by_person[person.id]:
+                beer_id = tasting.beer_id
+                if beer_id not in beer_summary_by_person[person.id]:
+                    beer_summary_by_person[person.id][beer_id] = 0
+                beer_summary_by_person[person.id][beer_id] += 1
+
+        total_spent_per_person = {}
+        for person in people:
+            total_spent_per_person[person.id] = 0
+            for tasting in paid_tastings_by_person[person.id]:
+                total_spent_per_person[person.id] += tasting.cost
+
+        print("Summary")
+        for person_id in beer_summary_by_person:
+            person = people_by_id[person_id]
+            print(f"{person.lastname}, {person.firstname}")
+            for beer_id in beer_summary_by_person[person_id]:
+                beer = self.database.beer.find_by_id(beer_id)
+                count = beer_summary_by_person[person_id][beer_id]
+                print(f"  {beer.name}: {count}")
+            print(f"Total spent: ${total_spent_per_person[person_id]}")
+
+    def list_by_date(self):
+        date = get_text_input("Date (yyyy-mm-dd) format")
+        tastings = self.database.tasting.find_by_date(date)
+        for tasting in tastings:
+            person = self.database.person.find_by_id(tasting.person_id)
+            beer = self.database.beer.find_by_id(tasting.beer_id)
+            paid_by = self.database.person.find_by_id(
+                tasting.paid_by_person_id)
+            print(f"{tasting.id}. {person.lastname}, {person.firstname} drank {beer.name} on {tasting.tasting_date} for ${
+                  tasting.cost} paid by {paid_by.lastname}, {paid_by.firstname} with a rating of {tasting.rating}")

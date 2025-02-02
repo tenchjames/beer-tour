@@ -18,14 +18,3 @@ class Database():
         self.tasting = TastingRepository("db/tasting.csv")
         self.tasting_attendee = TastingAttendeeRepository(
             "db/tasting_attendee")
-
-    def save(self):
-        """
-        self.brewery.save()
-        self.category.save()
-        self.beer.save()
-        self.person.save()
-        self.tasting_location.save()
-        self.tasting_attendee.save()
-        """
-        pass
